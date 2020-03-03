@@ -17,10 +17,8 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password2']
 
-            # 使用内置User自带create_user方法创建用户，不需要使用save()
             user = User.objects.create_user(username=username, password=password, email=email)
 
-            # 如果直接使用objects.create()方法后不需要使用save()
             user_profile = UserProfile(user=user)
             user_profile.save()
             return HttpResponseRedirect("/accounts/login/")
@@ -44,7 +42,7 @@ def login(request):
                 return HttpResponseRedirect(reverse('users:profile', args=[user.id]))
 
             else:
-                # 登陆失败
+                # login fail
                   return render(request, 'users/login.html', {'form': form,
                                'message': 'Wrong password. Please try again.'})
     else:
